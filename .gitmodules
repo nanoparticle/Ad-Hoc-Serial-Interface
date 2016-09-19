@@ -1,0 +1,6 @@
+[submodule "lib"]
+	path = lib
+	url = https://github.com/scream3r/java-simple-serial-connector.git
+[submodule "lib/jssc"]
+	path = lib/jssc
+	url = https://github.com/scream3r/java-simple-serial-connector.git
