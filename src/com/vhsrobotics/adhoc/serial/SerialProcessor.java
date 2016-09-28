@@ -17,6 +17,7 @@ public class SerialProcessor {
 		
 		openSerialPort();
 		attachShutdownHook();
+		setSerialListener();
 	}
 	
 	public static void addSerialFile (SerialFile s) {
@@ -28,11 +29,11 @@ public class SerialProcessor {
 		String name;
 		try {
 			temp = serialPort.readString(e.getEventValue());
+			name = temp.split("|")[0];
+			for (SerialFile f : files) if (f.getID().equals(name)) f.set(temp.split("|")[1]);
 		} catch (SerialPortException e1) {
 			e1.printStackTrace();
 		}
-		name = temp.split("|")[0];
-		for (SerialFile f : files) if (f.getID().equals(name)) f.set(temp.split("|")[1]);
 	}
 	
 	private static void openSerialPort () {

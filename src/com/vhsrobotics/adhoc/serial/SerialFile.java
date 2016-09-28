@@ -7,7 +7,7 @@ public class SerialFile {
 	
 	public SerialFile (String identifier, Object defaultVal) {
 		id = identifier;
-		value = defaultVal.toString();
+		set(defaultVal);
 		SerialProcessor.addSerialFile(this);
 	}
 	
@@ -17,7 +17,7 @@ public class SerialFile {
 	
 	public SerialFile set (Object o) {
 		value = o.toString();
-		if (listener != null)  listener.stateChanged(value);
+		if (listener != null)  listener.stateChanged(id, value);
 		return this;
 	}
 	
