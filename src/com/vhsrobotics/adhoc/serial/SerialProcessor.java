@@ -3,11 +3,11 @@ package com.vhsrobotics.adhoc.serial;
 import java.util.ArrayList;
 import java.util.List;
 
-import jssc.src.java.jssc.SerialPortEvent;
-import jssc.src.java.jssc.SerialPortEventListener;
-import jssc.src.java.jssc.SerialPortException;
-import jssc.src.java.jssc.SerialPortList;
-import jssc.src.java.jssc.SerialPort;
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
+import jssc.SerialPortException;
+import jssc.SerialPortList;
+import jssc.SerialPort;
 
 public class SerialProcessor {
 	private static List<SerialFile> files;
