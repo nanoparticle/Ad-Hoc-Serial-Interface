@@ -24,7 +24,8 @@ public class SerialProcessor {
 		files.add(s);
 	}
 	
-	public static void stateChanged (SerialPortEvent e) {
+	
+	public static void updateIn (SerialPortEvent e) {
 		String temp = "";
 		String name;
 		try {
@@ -33,6 +34,21 @@ public class SerialProcessor {
 			for (SerialFile f : files) if (f.getID().equals(name)) f.set(temp.split("|")[1]);
 		} catch (SerialPortException e1) {
 			e1.printStackTrace();
+		}
+	}
+	
+	public static void updateOut (SerialFile f) {
+		try {
+			serialPort.writeString(f.getID() + "|" + f.get() + "\n");
+		} catch (SerialPortException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void sync () {
+		for (SerialFile f : files) {
+			updateOut(f);
 		}
 	}
 	
@@ -71,7 +87,7 @@ public class SerialProcessor {
 		try {
 			serialPort.addEventListener(new SerialPortEventListener() {
 				public void serialEvent(SerialPortEvent serialPortEvent) {
-					stateChanged(serialPortEvent);
+					updateIn(serialPortEvent);
 				}
 			});
 		} catch (SerialPortException e) {
