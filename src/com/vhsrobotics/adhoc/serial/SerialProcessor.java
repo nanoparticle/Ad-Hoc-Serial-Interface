@@ -12,8 +12,10 @@ import jssc.SerialPort;
 public class SerialProcessor {
 	private static List<SerialFile> files;
 	private static SerialPort serialPort;
+	private static String input;
 	static {
 		files = new ArrayList<SerialFile>();
+		input = new String();
 		
 		openSerialPort();
 		attachShutdownHook();
@@ -24,20 +26,28 @@ public class SerialProcessor {
 		files.add(s);
 	}
 	
-	
-	public static void updateIn (SerialPortEvent e) {
+	private static void processIn(SerialPortEvent e) {
 		String temp = "";
-		String name;
 		try {
 			temp = serialPort.readString(e.getEventValue());
-			name = temp.split("|")[0];
-			for (SerialFile f : files) if (f.getID().equals(name)) f.set(temp.split("|")[1]);
 		} catch (SerialPortException e1) {
 			e1.printStackTrace();
 		}
+		if (temp.contains("\n")) {
+			input += temp.substring(0, temp.indexOf("\n"));
+			updateIn(input);
+			input = temp.substring(temp.indexOf("\n") + 1);
+		} else {
+			input += temp;
+		}
 	}
 	
-	public static void updateOut (SerialFile f) {
+	private static void updateIn (String in) {
+		String name = in.split("|")[0];
+		for (SerialFile f : files) if (f.getID().equals(name)) f.set(in.split("|")[1]);
+	}
+	
+	private static void updateOut (SerialFile f) {
 		try {
 			serialPort.writeString(f.getID() + "|" + f.get() + "\n");
 		} catch (SerialPortException e) {
@@ -87,7 +97,7 @@ public class SerialProcessor {
 		try {
 			serialPort.addEventListener(new SerialPortEventListener() {
 				public void serialEvent(SerialPortEvent serialPortEvent) {
-					updateIn(serialPortEvent);
+					processIn(serialPortEvent);
 				}
 			});
 		} catch (SerialPortException e) {
