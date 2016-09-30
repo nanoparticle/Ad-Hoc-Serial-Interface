@@ -1,6 +1,25 @@
 package com.vhsrobotics.adhoc.serial;
 
+import jssc.SerialPortEvent;
+import jssc.SerialPortException;
+
 public class Util {
+	
+	private static void collectInput(SerialPortEvent e) {
+		String temp = "";
+		try {
+			temp = serialPort.readString(e.getEventValue());
+		} catch (SerialPortException e1) {
+			e1.printStackTrace();
+		}
+		if (temp.contains(String.valueOf(Symbols.ETB))) {
+			input += temp.substring(0, temp.indexOf("\n"));
+			updateIn(input);
+			input = temp.substring(temp.indexOf("\n") + 1);
+		} else {
+			input += temp;
+		}
+	}
 	
 	public static void decodeInput () {
 		
