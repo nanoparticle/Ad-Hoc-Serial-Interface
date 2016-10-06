@@ -2,12 +2,13 @@ package com.vhsrobotics.adhoc.serial;
 
 public class SerialFile {
 	private String id;
-	private String value;
+	private volatile String value;
 	private SerialListener listener;
+	private boolean beenSet = false;
 	
 	public SerialFile (String identifier, Object defaultVal) {
 		id = identifier;
-		set(defaultVal);
+		value = defaultVal.toString();
 		SerialProcessor.addSerialFile(this);
 	}
 	
@@ -15,10 +16,16 @@ public class SerialFile {
 		return id;
 	}
 	
-	public SerialFile set (Object o) {
+	public void updateOut (Object o) {
+		if(!beenSet) beenSet = true;
+		value = o.toString();
+		SerialProcessor.updateOut(this);
+	}
+	
+	public void updateIn (Object o) {
+		if(!beenSet) beenSet = true;
 		value = o.toString();
 		if (listener != null)  listener.stateChanged(id, value);
-		return this;
 	}
 	
 	public String get () {
@@ -40,11 +47,14 @@ public class SerialFile {
 		return Boolean.valueOf(value);
 	}
 	
-	public SerialFile setListener (SerialListener l) {
+	public void setListener (SerialListener l) {
 		listener = l;
-		return this;
 	}
 	public SerialListener getListener () {
 		return listener;
+	}
+	
+	public boolean beenSet () {
+		return beenSet;
 	}
 }
