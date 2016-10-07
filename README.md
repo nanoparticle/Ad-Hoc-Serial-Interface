@@ -9,3 +9,6 @@ If manual connection/disconnection is required, use SerialProcessor because the 
 If manual synchronization of one or all SerialFile objects is required, use the SerialProcessor class.
 
 If connection status must be determined, use the Sys class.
+
+
+We do what we must because we can.
