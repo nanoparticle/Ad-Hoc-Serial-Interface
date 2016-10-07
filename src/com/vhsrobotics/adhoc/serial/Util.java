@@ -99,6 +99,7 @@ public class Util {
 			@Override
 			public void run() {
 				if (serialPort != null) {
+					Sys.disconnect();
 					try {
 						serialPort.closePort();
 						System.out.println("Serial port closed.");
