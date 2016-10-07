@@ -28,4 +28,12 @@ public class SerialProcessor {
 	public static void sync () {
 		for (SerialFile f : files) updateOut(f);
 	}
+	
+	public static void connect () {
+		Sys.connect();
+	}
+	
+	public static void disconnect () {
+		Sys.disconnect();
+	}
 }

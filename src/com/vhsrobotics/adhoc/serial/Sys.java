@@ -7,6 +7,11 @@ public class Sys {
 		Util.sendCommand(Command.CONNECT);
 	}
 	
+	public static void disconnect () {
+		isConnected = false;
+		Util.sendCommand(Command.DISCONNECT);
+	}
+	
 	public static void runCommand (String c) {
 		if (c.equalsIgnoreCase(Command.CONNECT)) {
 			Util.sendCommand(Command.ACK);
